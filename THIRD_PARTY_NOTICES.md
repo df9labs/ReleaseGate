@@ -2,7 +2,7 @@
 
 ## FeedHive AI Slop Detector (rule source)
 
-`server/data/feedhive-slop-patterns.json` is an unmodified copy of `patterns.json`
+`server/rules/feedhive-slop-patterns.json` is an unmodified copy of `patterns.json`
 from https://github.com/FeedHive/ai-slop-detector (version 1.0.0, commit
 95d550706040191b0e75f1d89296a648bacb126e). ReleaseGate's own matcher table in
 `server/health-content-rules.ts` is keyed by the pattern ids in that file.
