@@ -35,6 +35,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { api, type Healthcheck as HealthcheckRun, type HealthcheckInput } from '../api';
 import { organisationName } from '../organisation';
 import { parsePlaywrightReport } from '../health-suite';
+import { splitContentNotes, CONTENT_NOTE_PREFIX } from '../health-content-notes';
 import { canRerunDirectly, needsRerunUrl, settingsForRerun } from '../health-rerun';
 import type { LucideIcon } from 'lucide-react';
 
@@ -994,14 +995,46 @@ function RunEvidence({
           </ul>
         </details>
       )}
-      {(run.limitations || []).length > 0 && (
+      {splitContentNotes(run.limitations).rest.length > 0 && (
         <div className="mt-4">
           <h4 className="shipsure-label">Limits and suggestions</h4>
           <ul aria-label="Limits of this review" className="mt-2 list-disc space-y-1 pl-5 text-xs leading-5 text-[#93A4B8]">
-            {run.limitations.map((item, index) => <li key={index}>{item}</li>)}
+            {splitContentNotes(run.limitations).rest.map((item, index) => <li key={index}>{item}</li>)}
           </ul>
         </div>
       )}
+    </HealthPanel>
+  );
+}
+
+function SlopPanel({ run }: { run: HealthcheckRun }) {
+  const { notes, count } = splitContentNotes(run.limitations);
+  if (!notes.length && run.check_source !== 'website') return null;
+  return (
+    <HealthPanel className="border-[#FFB020]/50 p-5 md:p-7">
+      <section aria-label="AI slop">
+        <p className="text-xs font-extrabold uppercase tracking-[0.15em] text-[#FFB020]">AI slop</p>
+        {notes.length ? (
+          <>
+            <p className="mt-2 text-4xl font-black leading-tight text-[#FFD28A] md:text-6xl">
+              {count} AI {count === 1 ? 'cliché' : 'clichés'} found
+            </p>
+            <ul className="mt-4 space-y-3 text-base leading-6 text-white md:text-lg">
+              {notes.map((note, index) => (
+                <li key={index} className="break-words">
+                  {note.phrase ? (
+                    <>
+                      <mark className="rounded bg-[#FFB020]/20 px-1.5 py-0.5 font-bold text-[#FFD28A]">{note.phrase}</mark>
+                      <span className="text-[#B0C0D1]"> {note.where} · {note.rule}</span>
+                    </>
+                  ) : note.raw.slice(CONTENT_NOTE_PREFIX.length).trim()}
+                </li>
+              ))}
+            </ul>
+            <p className="mt-4 text-sm text-[#B0C0D1]">Pattern matches, not proof. Rewrite in plain, specific words.</p>
+          </>
+        ) : <p className="mt-2 text-sm text-[#B0C0D1]">No AI clichés found</p>}
+      </section>
     </HealthPanel>
   );
 }
@@ -1372,6 +1405,7 @@ function HealthcheckPage() {
           PDF export failed. {exportPdf.error.message}
         </p>
       )}
+      <SlopPanel run={run} />
       <div className="grid auto-rows-[minmax(148px,auto)] grid-cols-1 gap-4 xl:grid-cols-12">
         <HealthPanel className={cx('min-h-[520px] p-5 md:p-7 xl:col-span-8 xl:row-span-2', counts && 'flex flex-col')}>
           <div className="pointer-events-none absolute -left-28 -top-28 h-80 w-80 rounded-full bg-[#FF7A3D]/[0.08] blur-3xl" />
@@ -1964,7 +1998,7 @@ function HealthcheckPage() {
             <div>
               <p className="text-[10px] font-extrabold uppercase tracking-[0.15em] text-[#67E8F9]">Boundary</p>
               <ul className="mt-3 space-y-2 text-xs leading-5 text-[#8EA2B6]">
-                {(run.limitations || []).map((item) => (
+                {splitContentNotes(run.limitations).rest.map((item) => (
                   <li key={item}>
                     {'• '}
                     {item}

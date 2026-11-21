@@ -8,7 +8,7 @@ import { compareSearchMetadata, inspectMarkup, type SearchMetadata } from './hea
 import { collectLinks, eligibleLink, includeRenderedLinks, LINK_LIMIT, probeLinks, recordLinks, type LinkPage, type LinkPolicy, type LinkResponse } from './health-links';
 import { inspectPageRelease, inspectSitemap, type ReleaseObservation } from './health-release';
 import { readCrawlPolicy } from './health-crawl';
-import { inspectGenericContent, summariseGenericContent, type PageContent } from './health-content';
+import { inspectGenericContent, mergeGenericContent, summariseGenericContent, type PageContent } from './health-content';
 
 export const PAGE_LIMIT = 4;
 export const MAX_PAGE_LIMIT = 25;
@@ -335,6 +335,7 @@ export async function reviewWebsite(
   // Capture replay dependencies before spending the remaining live-read budget on optional destinations.
   const replay = await options.prepareReplay?.(captured);
   const rendered = new Map<string, LinkPage>();
+  const renderedContent: PageContent[] = [];
   const observe: RenderObserver = (page, markup, partial) => {
     const original = documents.find((doc) => doc.page === page.url);
     if (!original) return;
@@ -342,6 +343,7 @@ export async function reviewWebsite(
     const current = collectLinks(nodes, new URL(page.url), original.follow && !nofollow(nodes, page));
     current.partial = partial;
     rendered.set(page.url, current);
+    renderedContent.push(inspectGenericContent(nodes, new URL(page.url).pathname));
   };
   async function readDestinations() {
     if (!documents.length) return LINK_LIMIT;
@@ -369,6 +371,6 @@ export async function reviewWebsite(
     evidence.limitations.push('The live-read time budget ended. Only completed reads contribute evidence.');
   compareSearchMetadata(searchSample, evidence.limitations);
   // Review notes only. They never add or change a check.
-  evidence.limitations.push(...summariseGenericContent(contentPages));
+  evidence.limitations.push(...summariseGenericContent(mergeGenericContent(contentPages, renderedContent)));
   return evidence;
 }
