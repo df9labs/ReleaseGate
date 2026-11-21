@@ -18,14 +18,14 @@ const pages: Record<string, string> = {
     '<!doctype html><html lang="en-GB"><head><title>' +
     sampleTitle +
     '</title><meta name="build-id" content="sample-1"><meta name="description" content="Release notes and a guide to preview checks."><script src="' +
-    scriptPath + '" defer></script></head><body><main><h1>Preview release notes</h1><p>This example includes a missing image description.</p>' +
+    scriptPath + '" defer></script></head><body><main><h1>Preview release notes</h1><h2>Ideas made real</h2><p>This example includes a missing image description.</p>' +
     '<button id="show-notes" aria-expanded="false" aria-controls="build-notes">Show release notes</button>' +
     '<p id="build-notes" hidden>Preview build approved</p><button type="button">Open status</button>' +
     '<img src="/favicon.svg" width="48" height="48"><p><a href="' +
     guide +
     '">Read the release guide</a></p></main></body></html>',
   [guide]:
-    '<!doctype html><html lang="en-GB"><head><title>Release guide</title></head><body><main><h1>Release guide</h1><p>Check the release in preview, record the proof and request approval.</p></main></body></html>',
+    '<!doctype html><html lang="en-GB"><head><title>Release guide</title></head><body><main><h1>Release guide</h1><p>Check the release in preview, record the proof and request approval.</p><p><a href="#">Get started</a></p></main></body></html>',
 };
 const rules = 'User-agent: ReleaseGateHealthcheck\nAllow: /healthcheck-sample/\nDisallow: /\n';
 
