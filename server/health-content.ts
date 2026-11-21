@@ -179,6 +179,19 @@ export function inspectGenericContent(nodes: Element[], page: string, now = new 
   return out;
 }
 
+/** One PageContent per page: findings and quotes from the delivered HTML and the rendered DOM, without repeats. */
+export function mergeGenericContent(delivered: PageContent[], rendered: PageContent[]): PageContent[] {
+  const merged = new Map<string, PageContent>();
+  for (const p of [...delivered, ...rendered]) {
+    const into = merged.get(p.page) ?? { page: p.page, findings: [], quotes: [] };
+    for (const f of p.findings)
+      if (!into.findings.some((g) => g.id === f.id && g.text.toLowerCase() === f.text.toLowerCase())) into.findings.push(f);
+    for (const q of p.quotes) if (!into.quotes.includes(q)) into.quotes.push(q);
+    merged.set(p.page, into);
+  }
+  return [...merged.values()];
+}
+
 interface Group { id: string; name: string; text: string; advice?: string; pages: string[] }
 
 export function summariseGenericContent(pages: PageContent[]): string[] {

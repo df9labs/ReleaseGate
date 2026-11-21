@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { parse, type DefaultTreeAdapterTypes } from 'parse5';
-import { inspectGenericContent, summariseGenericContent, CONTENT_NOTE_PREFIX, type PageContent } from '../server/health-content';
+import { inspectGenericContent, mergeGenericContent, summariseGenericContent, CONTENT_NOTE_PREFIX, type PageContent } from '../server/health-content';
 import { contentRules, matchedFeedhiveIds, SKIPPED, FEEDHIVE_PATTERN_IDS } from '../server/health-content-rules';
 import { reviewWebsite, type PageReader } from '../server/health-pages';
 import { completeHealthcheck, prepareHealthcheck } from '../server/healthchecks';
@@ -154,4 +154,40 @@ test('the PDF lists the notes in their own section and says they are not a pass 
   assert.match(doc, /Ideas made real/);
   const limitsSection = /<h2>Scope and limitations<\/h2>([\s\S]*?)<\/section>/.exec(doc)?.[1] ?? '';
   assert.ok(!limitsSection.includes('Ideas made real'));
+});
+
+async function reviewRendered(delivered: string, rendered: string) {
+  const read: PageReader = async (url) => url.pathname === '/robots.txt'
+    ? { url: url.href, status: 200, contentType: 'text/plain', body: 'User-agent: *\nAllow: /\n' }
+    : url.pathname === '/' ? { url: url.origin + '/', status: 200, contentType: 'text/html', body: html(delivered) }
+    : { url: url.href, status: 404, contentType: 'text/html', body: '' };
+  return reviewWebsite(start, true, read, AbortSignal.timeout(5000), {
+    maxPages: 2,
+    prepareReplay: async () => async (observe) => {
+      observe({ url: start.origin + '/', status: 200, contentType: 'text/html', body: '' } as never, html(rendered), false);
+      return { checks: [], limitations: [] };
+    },
+  });
+}
+test('cliche text that only appears after JavaScript runs is noted when browser evidence is present', async () => {
+  const shell = '<div id="root"></div>';
+  const notes = (await reviewRendered(shell, '<div id="root"><p>Lorem ipsum</p></div>')).limitations.filter((n) => n.startsWith(CONTENT_NOTE_PREFIX));
+  assert.equal(notes.length, 1);
+  assert.match(notes[0], /Lorem ipsum/);
+  assert.deepEqual((await review({ '/': shell })).limitations.filter((n) => n.startsWith(CONTENT_NOTE_PREFIX)), []);
+});
+test('a phrase found in both the delivered HTML and the rendered DOM is noted once', async () => {
+  const body = '<p>Lorem ipsum</p>';
+  const notes = (await reviewRendered(body, body)).limitations.filter((n) => n.startsWith(CONTENT_NOTE_PREFIX));
+  assert.equal(notes.length, 1);
+  assert.match(notes[0], /on \//);
+});
+test('mergeGenericContent unions findings and quotes per page', () => {
+  const f = (text: string) => ({ id: 'DF9-X', name: 'n', text });
+  const merged = mergeGenericContent(
+    [{ page: '/', findings: [f('Alpha')], quotes: ['q'] }],
+    [{ page: '/', findings: [f('alpha'), f('Beta')], quotes: ['q', 'r'] }, { page: '/b', findings: [], quotes: [] }]);
+  assert.equal(merged.length, 2);
+  assert.deepEqual(merged[0].findings.map((x) => x.text), ['Alpha', 'Beta']);
+  assert.deepEqual(merged[0].quotes, ['q', 'r']);
 });
