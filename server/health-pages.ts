@@ -8,6 +8,7 @@ import { compareSearchMetadata, inspectMarkup, type SearchMetadata } from './hea
 import { collectLinks, eligibleLink, includeRenderedLinks, LINK_LIMIT, probeLinks, recordLinks, type LinkPage, type LinkPolicy, type LinkResponse } from './health-links';
 import { inspectPageRelease, inspectSitemap, type ReleaseObservation } from './health-release';
 import { readCrawlPolicy } from './health-crawl';
+import { inspectGenericContent, summariseGenericContent, type PageContent } from './health-content';
 
 export const PAGE_LIMIT = 4;
 export const MAX_PAGE_LIMIT = 25;
@@ -64,7 +65,7 @@ function nofollow(nodes: Element[], page: PublicPage) {
     n.tagName === 'meta' && /^(robots|releasegatehealthcheck)$/i.test(attr(n, 'name') || '') &&
     /\b(nofollow|none)\b/i.test(attr(n, 'content') || ''));
 }
-function inspect(page: PublicPage, evidence: ReviewEvidence, options: ReviewOptions, sample: SearchMetadata[], documents: LinkPage[]): string[] {
+function inspect(page: PublicPage, evidence: ReviewEvidence, options: ReviewOptions, sample: SearchMetadata[], documents: LinkPage[], content: PageContent[]): string[] {
   const url = new URL(page.url),
     label = url.origin + url.pathname;
   const add = (
@@ -193,6 +194,7 @@ function inspect(page: PublicPage, evidence: ReviewEvidence, options: ReviewOpti
     'The returned HTML body contains text outside scripts, templates and styles.',
     'Confirm the user journey in a browser.',
   );
+  content.push(inspectGenericContent(nodes, url.pathname));
   const headings = nodes.filter((n) => n.tagName === 'h1' && hasText(n));
   add(
     'heading',
@@ -226,6 +228,7 @@ export async function reviewWebsite(
   };
   const seen = new Set<string>();
   const documents: LinkPage[] = [];
+  const contentPages: PageContent[] = [];
   const responses = new Map<string, LinkResponse>();
   const captured: PublicPage[] = [];
   async function visit(u: URL, origin?: string, allowUrl?: (target: URL) => boolean) {
@@ -240,7 +243,7 @@ export async function reviewWebsite(
       if (seen.has(page.url)) return [];
       seen.add(page.url);
       evidence.pages.push({ url: page.url, status: page.status });
-      const links = inspect(page, evidence, options, searchSample, documents);
+      const links = inspect(page, evidence, options, searchSample, documents, contentPages);
       const document = documents.at(-1);
       if (document?.page === page.url) {
         observed.targets = document.targets;
@@ -365,5 +368,7 @@ export async function reviewWebsite(
   if (signal.aborted)
     evidence.limitations.push('The live-read time budget ended. Only completed reads contribute evidence.');
   compareSearchMetadata(searchSample, evidence.limitations);
+  // Review notes only. They never add or change a check.
+  evidence.limitations.push(...summariseGenericContent(contentPages));
   return evidence;
 }
