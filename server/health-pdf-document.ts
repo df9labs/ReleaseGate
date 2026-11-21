@@ -1,5 +1,6 @@
 import type { Healthcheck, HealthObservation, Finding } from '../src/api';
 import { organisationName } from '../src/organisation';
+import { CONTENT_NOTE_PREFIX } from './health-content';
 
 const escapeText = (value: unknown) => String(value ?? '')
   .replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;')
@@ -196,8 +197,12 @@ export function healthcheckDocument(run: Healthcheck): string {
     !desktop && run.browser_checks !== undefined && run.check_source !== 'supplied' ? detail('Browser checks', run.browser_checks ? 'Enabled' : 'Switched off') : '',
     run.button_journeys?.length ? '<h3>Requested button outcomes</h3>' + list(run.button_journeys.map(journey =>
       'Activate “' + journey.button + '” and look for “' + journey.expected_text + '”.')) : '',
-    list(run.limitations),
+    list(run.limitations?.filter(note => !note.startsWith(CONTENT_NOTE_PREFIX))),
   ].join('');
+  const contentNotes = (run.limitations ?? []).filter(note => note.startsWith(CONTENT_NOTE_PREFIX)).map(note => note.slice(CONTENT_NOTE_PREFIX.length).trim());
+  const genericContent = contentNotes.length ? section('Generic AI content',
+    '<p>These are pattern matches on the delivered page text. They can be false alarms. Nothing here counts as a pass or a fail, and no score uses it.</p>' +
+    list(contentNotes)) : '';
   const coverage = scores.length ? section('Coverage by category', `<table>
     <thead><tr><th style="width:32%">Category</th><th style="width:19%">Checks measured</th><th>Recorded status</th></tr></thead>
     <tbody>${scores.map(c => `<tr><td>${escapeText(c.label)}</td><td>${escapeText(c.completed_checks)} of ${escapeText(c.total_checks)}</td>
@@ -219,7 +224,7 @@ export function healthcheckDocument(run: Healthcheck): string {
       ? detail('Archived readiness indicator', run.readiness_indicator + '/100 · ' + readable(run.band)) : ''}
     ${!local && run.summary ? `<p class="copy">${escapeText(run.summary)}</p>` : ''}
     ${section('Findings', findings.length ? findings.map(findingRow).join('') : '<p>No findings were recorded for this run.</p>')}
-    ${section('Scope and limitations', scope)}${coverage}${comparisons(run)}
+    ${section('Scope and limitations', scope)}${genericContent}${coverage}${comparisons(run)}
     ${section('Next steps', list(run.next_steps))}
     ${!local ? section('Recorded strengths', list(run.strengths)) : ''}
     ${evidenceRegister(run, categories)}
