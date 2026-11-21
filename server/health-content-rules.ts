@@ -1,8 +1,8 @@
-import feedhive from './data/feedhive-slop-patterns.json';
+import feedhive from './rules/feedhive-slop-patterns.json';
 
 // Matcher table for the "Generic AI content" review notes.
 //
-// FeedHive's patterns (server/data/feedhive-slop-patterns.json, MIT, see THIRD_PARTY_NOTICES.md) are
+// FeedHive's patterns (server/rules/feedhive-slop-patterns.json, MIT, see THIRD_PARTY_NOTICES.md) are
 // prose descriptions, not regexes. This table maps the ones that can be matched reliably from text
 // to hand-written regexes, keyed by FeedHive id. Everything else is listed in SKIPPED below.
 //
