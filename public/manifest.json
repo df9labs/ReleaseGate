@@ -1,0 +1,22 @@
+{
+  "name": "ReleaseGate",
+  "short_name": "ReleaseGate",
+  "description": "Check your website before release, then track bugs, repairs and versions in one place.",
+  "icons": [
+    {
+      "src": "/icons/releasegate-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/releasegate-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}

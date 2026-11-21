@@ -1,0 +1,1 @@
+The hosted installation gets its initial settings from migration `9000_hosted_settings.sql`. Bugs, activity, versions and Healthcheck history start empty. The administrator is created from the backend's private environment.

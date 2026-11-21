@@ -1,0 +1,324 @@
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/jetbrains-mono-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/jetbrains-mono-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/jetbrains-mono-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/manrope-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/manrope-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/manrope-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/manrope-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("/fonts/manrope-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Space Grotesk";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/space-grotesk-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Space Grotesk";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/space-grotesk-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Space Grotesk";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/space-grotesk-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@tailwind base;
+
+@layer base {
+  :root {
+    --background: 240 7% 9%;
+    --foreground: 30 20% 96%;
+    --card: 240 6% 14%;
+    --card-foreground: 30 20% 96%;
+    --popover: 240 6% 14%;
+    --popover-foreground: 30 20% 96%;
+    --primary: 20 100% 62%;
+    --primary-foreground: 240 8% 8%;
+    --secondary: 27 98% 58%;
+    --secondary-foreground: 240 8% 8%;
+    --muted: 240 5% 18%;
+    --muted-foreground: 30 8% 63%;
+    --accent: 20 100% 62%;
+    --accent-foreground: 240 8% 8%;
+    --destructive: 4 85% 63%;
+    --destructive-foreground: 30 20% 96%;
+    --border: 240 5% 24%;
+    --input: 240 5% 24%;
+    --ring: 20 100% 62%;
+    --chart-1: 20 100% 62%;
+    --chart-2: 30 95% 60%;
+    --chart-3: 12 92% 58%;
+    --chart-4: 40 90% 62%;
+    --chart-5: 4 85% 63%;
+    --radius: 1rem;
+    --font-heading: "Space Grotesk", "Manrope", ui-sans-serif, system-ui, sans-serif;
+    --font-display: var(--font-heading);
+    --font-body: "Manrope", ui-sans-serif, system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+
+  * {
+    border-color: hsl(var(--border));
+    outline-color: hsl(var(--ring) / .5);
+    scrollbar-width: thin;
+    scrollbar-color: #5a4034 #17171a;
+  }
+
+  html {
+    color-scheme: dark;
+    background: #17171a;
+  }
+
+  body {
+    min-height: 100vh;
+    margin: 0;
+    font-family: var(--font-body);
+    color: hsl(var(--foreground));
+    background:
+      radial-gradient(circle at 78% -10%, rgba(255, 111, 54, .12), transparent 34rem),
+      radial-gradient(circle at 18% 6%, rgba(255, 154, 71, .07), transparent 28rem),
+      #17171a;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-heading);
+  }
+
+  button, input, textarea, select {
+    font: inherit;
+  }
+
+  ::selection {
+    background: #ff6f3647;
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid rgba(255, 126, 67, .9);
+    outline-offset: 2px;
+  }
+}
+
+@tailwind components;
+
+@layer components {
+  .shipsure-button,
+  .shipsure-button-secondary {
+    @apply inline-flex h-10 items-center gap-2 rounded-xl border px-4 text-sm transition duration-200;
+  }
+
+  .shipsure-button {
+    @apply bg-gradient-to-br from-[#FFA13F] via-[#FF7A3D] to-[#FF5E45] font-extrabold text-[#1B1716];
+    @apply shadow-[0_12px_34px_rgba(255,106,61,.2)];
+    border-color: #ff8a4ccc;
+  }
+
+  .shipsure-button:hover {
+    @apply -translate-y-0.5 shadow-[0_15px_44px_rgba(255,106,61,.3)];
+  }
+
+  .shipsure-button-secondary {
+    @apply border-[#4B4442] font-bold text-[#F2ECE8] shadow-[inset_0_1px_0_rgba(255,255,255,.035)];
+    background-color: #242326e6;
+  }
+
+  .shipsure-button-secondary:hover {
+    @apply -translate-y-0.5 bg-[#2D2928] text-white;
+    border-color: #ff7a3d8c;
+  }
+
+  .shipsure-button:active,
+  .shipsure-button-secondary:active {
+    @apply translate-y-0;
+  }
+
+  .shipsure-input {
+    @apply h-11 w-full rounded-xl border border-[#494245] px-3 text-sm text-[#FFF8F3] outline-none transition;
+    background-color: #1d1c20e6;
+  }
+
+  .shipsure-input::placeholder {
+    color: #756d69;
+  }
+
+  .shipsure-input:focus {
+    @apply ring-2 ring-[#FF7A3D]/10;
+    border-color: #ff7a3dbf;
+  }
+
+  textarea.shipsure-input {
+    @apply py-3;
+  }
+
+  select.shipsure-input {
+    @apply cursor-pointer pr-8;
+  }
+
+  .shipsure-label {
+    @apply mb-2 block text-[10px] font-bold uppercase tracking-[.15em] text-[#C9BDB6];
+  }
+
+  .shipsure-panel {
+    background: linear-gradient(145deg, #2b292cf0, #1c1b1fe6), #1c1b1fe6;
+    border-color: #6b5f5b61;
+    box-shadow: inset 0 1px #ffffff09, 0 24px 80px #00000040;
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+  }
+
+  .shipsure-hero {
+    background:
+      radial-gradient(circle at 68% 18%, rgba(255, 109, 55, .16), transparent 33%),
+      radial-gradient(circle at 40% 84%, rgba(255, 149, 65, .07), transparent 31%),
+      linear-gradient(145deg, #252327fc, #18171bfc);
+  }
+
+  .shipsure-page-grid {
+    background-image:
+      linear-gradient(rgba(147, 164, 184, .035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(147, 164, 184, .035) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(circle at 55% 35%, black, transparent 76%);
+  }
+
+  .shipsure-hero-grid {
+    background-image:
+      linear-gradient(rgba(255, 122, 61, .035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 161, 63, .03) 1px, transparent 1px);
+    background-size: 32px 32px;
+    mask-image: linear-gradient(to bottom, black, rgba(0, 0, 0, .34) 70%, transparent);
+  }
+
+  .shipsure-aurora {
+    background:
+      radial-gradient(ellipse at 72% 7%, rgba(255, 103, 51, .12), transparent 35%),
+      radial-gradient(ellipse at 18% 42%, rgba(255, 161, 63, .055), transparent 34%),
+      radial-gradient(ellipse at 70% 88%, rgba(255, 122, 61, .035), transparent 28%);
+    transform-origin: center;
+    animation: shipsure-aurora 18s ease-in-out infinite alternate;
+  }
+
+  .shipsure-scan {
+    width: 45%;
+    animation: shipsure-scan 2.2s ease-in-out infinite;
+  }
+
+  .shipsure-ribbon-glow {
+    animation: shipsure-ribbon 8s linear infinite;
+  }
+}
+
+@tailwind utilities;
+
+@keyframes shipsure-aurora {
+  from { opacity: .72; transform: scale(.96) translate3d(-1.5%, -1%, 0); }
+  to { opacity: 1; transform: scale(1.06) translate3d(1.5%, 1%, 0); }
+}
+
+@keyframes shipsure-scan {
+  from { opacity: 0; transform: translateX(-125%); }
+  18%, 72% { opacity: .9; }
+  to { opacity: 0; transform: translateX(330%); }
+}
+
+@keyframes shipsure-ribbon {
+  from { transform: translateX(-140%); }
+  to { transform: translateX(900%); }
+}
+
+@media (max-width: 640px) {
+  .shipsure-panel {
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    transition-duration: .001ms !important;
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+  }
+
+  .shipsure-aurora, .shipsure-scan, .shipsure-ribbon-glow {
+    animation: none !important;
+  }
+}

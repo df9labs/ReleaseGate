@@ -1,0 +1,9 @@
+{$API_HOST} {
+    @releasegate path /api/* /healthcheck-sample/*
+    handle @releasegate {
+        reverse_proxy app:4310
+    }
+    handle {
+        respond 404
+    }
+}
