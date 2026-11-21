@@ -191,3 +191,15 @@ test('mergeGenericContent unions findings and quotes per page', () => {
   assert.deepEqual(merged[0].findings.map((x) => x.text), ['Alpha', 'Beta']);
   assert.deepEqual(merged[0].quotes, ['q', 'r']);
 });
+
+import { splitContentNotes, CONTENT_NOTE_PREFIX as CLIENT_PREFIX } from '../src/health-content-notes';
+test('the client splits content notes out of the limitations list', () => {
+  assert.equal(CLIENT_PREFIX, CONTENT_NOTE_PREFIX);
+  const notes = summariseGenericContent([page('<p>Lorem ipsum</p>', '/about')]);
+  const split = splitContentNotes(['Other limit.', ...notes]);
+  assert.deepEqual(split.rest, ['Other limit.']);
+  assert.equal(split.count, 1);
+  assert.equal(split.notes[0].phrase, 'Lorem ipsum');
+  assert.equal(split.notes[0].where, 'on /about');
+  assert.deepEqual(splitContentNotes(undefined), { notes: [], count: 0, rest: [] });
+});
