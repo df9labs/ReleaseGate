@@ -1,0 +1,46 @@
+import { expect, test } from '@playwright/test';
+import type { ButtonDiscovery } from '../../src/api';
+
+test('find sample controls and add a button check before running a Healthcheck', async ({ page }) => {
+  await page.goto('/login');
+  await page.getByLabel('Email', { exact: true }).fill('admin@releasegate.local');
+  await page.getByLabel('Password', { exact: true }).fill(process.env.RG_E2E_PASSWORD!);
+  await page.getByRole('button', { name: 'Log in', exact: true }).click();
+  await page.getByRole('link', { name: 'Healthcheck', exact: true }).click();
+  const history = page.getByRole('combobox', { name: 'Healthcheck history' });
+  await expect(history).toBeVisible();
+  const count = await history.locator('option').count();
+  await page.getByRole('button', { name: 'New healthcheck' }).click();
+  await page.getByRole('button', { name: 'Try a sample site' }).click();
+  const find = page.getByRole('button', { name: 'Find buttons', exact: true });
+  await expect(find).toBeDisabled();
+  const writes: string[] = [];
+  page.on('request', (request) => {
+    if (request.method() === 'POST') writes.push(new URL(request.url()).pathname);
+  });
+  await page.getByRole('checkbox', { name: /I authorise this read-only check/ }).check();
+  const path = '/api/healthchecks/discover-buttons';
+  const result = page.waitForResponse(r => r.request().method() === 'POST' && new URL(r.url()).pathname === path);
+  await find.click();
+  const reply = await result;
+  expect(reply.status()).toBe(200);
+  expect(reply.request().postDataJSON()).toEqual({ target_url: '', sample_site: true, authorization_attested: true });
+  const inventory: ButtonDiscovery = await reply.json();
+  expect(inventory.buttons).toContainEqual(expect.objectContaining({ name: 'Open status', selectable: true }));
+  const listed = page.getByRole('list', { name: 'Discovered buttons' });
+  await expect(listed.getByText('Show release notes', { exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'Add button check', exact: true }).click();
+  await listed.getByRole('button', { name: 'Add check for Open status' }).click();
+  await expect(page.getByLabel('Button name', { exact: true })).toHaveCount(1);
+  await expect(page.getByLabel('Button name', { exact: true })).toHaveValue('Open status');
+  const expected = page.getByLabel('Expected visible text', { exact: true });
+  await expect(expected).toBeFocused();
+  await expect(page.getByRole('button', { name: 'Run healthcheck', exact: true })).toBeDisabled();
+  await expected.fill('Service status details');
+  await expect(page.getByRole('button', { name: 'Run healthcheck', exact: true })).toBeEnabled();
+  await page.getByRole('button', { name: 'Use my own website' }).click();
+  await expect(listed).toHaveCount(0);
+  await page.getByRole('button', { name: 'Cancel', exact: true }).click();
+  await expect(history.locator('option')).toHaveCount(count);
+  expect(writes).toEqual([path]);
+});

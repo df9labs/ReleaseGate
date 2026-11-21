@@ -1,0 +1,59 @@
+{
+  "name": "df9-releasegate",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=24.14.0"
+  },
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "dev:api": "node --watch --env-file-if-exists=.env --import tsx server/index.ts",
+    "build:client": "vite build",
+    "build:server": "esbuild server/index.ts --bundle --platform=node --target=node24 --format=esm --packages=external --outfile=dist/server/index.js",
+    "build": "npm run build:client && npm run build:server",
+    "start": "node --env-file-if-exists=.env dist/server/index.js",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "tsx --test tests/*.test.ts",
+    "test:e2e": "playwright test",
+    "demo:inject": "node --env-file-if-exists=.env scripts/inject-demo.mjs"
+  },
+  "dependencies": {
+    "@babel/parser": "7.29.14",
+    "@babel/types": "7.29.14",
+    "@fastify/cookie": "^11.0.0",
+    "@fastify/static": "^10.1.12",
+    "@tanstack/react-query": "^5.66.0",
+    "drizzle-orm": "1.0.0-rc.5",
+    "fastify": "^5.0.0",
+    "framer-motion": "11.18.2",
+    "ipaddr.js": "2.5.0",
+    "lucide-react": "0.468.0",
+    "parse5": "8.1.1",
+    "playwright": "1.65.1",
+    "postcss": "^8.5.0",
+    "postcss-value-parser": "4.2.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "react-router-dom": "^7.18.6",
+    "recharts": "2.15.4",
+    "robots-parser": "3.0.1",
+    "saxes": "6.0.0",
+    "tailwind-merge": "^2.6.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.55.0",
+    "@types/node": "^24.0.0",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "autoprefixer": "^10.4.0",
+    "esbuild": "^0.25.0",
+    "tailwindcss": "3.4.17",
+    "tailwindcss-animate": "^1.0.7",
+    "tsx": "^4.20.0",
+    "typescript": "~5.9.3",
+    "vite": "^7.0.0"
+  }
+}
